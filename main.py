@@ -61,7 +61,6 @@ with open('config.json','r') as fp:
 config['gateway_conf'].update({'gateway_ID': secrets['gateway_ID']})
 config['gateway_conf']['servers'][0].update({'gateway_ID': secrets['gateway_ID']})
 # Start the Pygate
-ujson.dump(buf, config)
-machine.pygate_init(buf)
+machine.pygate_init(ujson.dumps(config))
 # disable degub messages
 # machine.pygate_debug_level(1)
