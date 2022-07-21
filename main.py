@@ -1,4 +1,4 @@
-from network import WLAN
+from network import WLAN, ETH
 import binascii
 import time
 import machine
@@ -6,11 +6,15 @@ import ujson
 from machine import RTC
 import pycom
 
+# Connect via ethernet
+eth = ETH()
+eth.init(hostname="itrich-pygate-001")
+eth.ifconfig(config="dhcp")
+
 # Set Gateway EUI if not already set
 if not 'gateway_eui' in pybytes_conf.keys():
     wl = WLAN()
     gateway_eui = binascii.hexlify(wl.mac().sta_mac)[:6] + 'fffe' + binascii.hexlify(wl.mac().sta_mac)[6:]
-    pybytes.set_config(key='gateway_eui', value=gateway_eui, permanent=True, silent=False, reconnect=False)
 
 print('\nStarting LoRaWAN concentrator')
 
@@ -47,8 +51,8 @@ print(" OK", end='\n')
 with open('config.json','r') as fp:
     config = ujson.load(fp)
 
-config['gateway_conf'].update({'gateway_ID': pybytes_conf['gateway_eui']})
-config['gateway_conf']['servers'][0].update({'gateway_ID': pybytes_conf['gateway_eui']})
+config['gateway_conf'].update({'gateway_ID': gateway_eui})
+config['gateway_conf']['servers'][0].update({'gateway_ID': gateway_eui})
 
 # Start the Pygate
 machine.pygate_init(ujson.dumps(config))
