@@ -171,11 +171,13 @@
     }
   },
   "gateway_conf": {
+    "gateway_ID": "3C71BFFFFE87FAEC",
     "server_address": "eu1.cloud.thethings.network",
     "serv_port_up": 1700,
     "serv_port_down": 1700,
     "servers": [
       {
+        "gateway_ID": "3C71BFFFFE87FAEC",
         "server_address": "eu1.cloud.thethings.network",
         "serv_port_up": 1700,
         "serv_port_down": 1700,
